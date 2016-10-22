@@ -5,8 +5,9 @@ These instructions reside on github: https://github.com/hydronics2/ESP8266---Oct
 We'll be programming the ESP8266 wifi chip.  It is packaged on the sparkfun dev board: https://www.sparkfun.com/products/13711
 
 Your boards are pre-programmed as wifi hot spots. Try connecting to your board with your phone and trying these pages:
-192.168.4.1/index.html  this controls the blue onboard LED
-192.168.4.1/smoothie.html  this page is note yet connected to your arduino but hopefully will be soon.
+http://192.168.4.1/index.html  this controls the blue onboard LED
+
+http://192.168.4.1/smoothie.html  this page is note yet connected to your arduino but hopefully will be soon.
 
 Install Arduino 1.6.11 from here: https://www.arduino.cc/en/Main/OldSoftwareReleases#previous
 
