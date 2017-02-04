@@ -17,7 +17,7 @@ ESP8266WebServer server(80);
 
 File fsUploadFile;
 
-int blinkDelay = 0;
+int blinkDelay = 500;
 
 //format bytes
 String formatBytes(size_t bytes){
@@ -71,7 +71,8 @@ bool handleFileRead(String path){
     blinkDelay = 50;
   }
   if(path == "/p0"){
-    Serial.print("~p0R");
+    Serial.println("blink is turning off");
+    blinkDelay = 0;
   }
   if(path == "/p20"){
     Serial.print("~p20R");
@@ -142,7 +143,7 @@ void handleFileDelete(){
   if(path == "/")
     return server.send(500, "text/plain", "BAD PATH");
   if(!SPIFFS.exists(path))
-    return server.send(404, "text/plain", "FileNotFound");
+    return server.send(404, "text/plain", "FileNotFound_handleDelete");
   SPIFFS.remove(path);
   server.send(200, "text/plain", "");
   path = String();
@@ -195,13 +196,14 @@ void handleFileList() {
 /* Just a little test message.  Go to http://192.168.4.1 in a web browser
  * connected to this access point to see it.
  */
+ //this does not seem to be callled
 void handleRoot() {
-	server.send(200, "text/html", "<h1>You are connected</h1>");
+	server.send(200, "text/html", "<a href=index.html>go here!</a>");
 }
 
 void setup() {
 	delay(1000);
-	Serial.begin(115200);
+	Serial.begin(9600);
 	Serial.println();
 	Serial.print("Configuring access point...");
 	/* You can remove the password parameter if you want the AP to be open. */
@@ -230,7 +232,7 @@ void setup() {
   server.on("/list", HTTP_GET, handleFileList);
   //load editor
   server.on("/edit", HTTP_GET, [](){
-    if(!handleFileRead("/edit.htm")) server.send(404, "text/plain", "FileNotFound");
+    if(!handleFileRead("/edit.htm")) server.send(404, "text/plain", "FileNotFound_server INIT");
   });
   //create file
   server.on("/edit", HTTP_PUT, handleFileCreate);
@@ -244,7 +246,8 @@ void setup() {
   //use it to load content from SPIFFS
   server.onNotFound([](){
     if(!handleFileRead(server.uri()))
-      server.send(404, "text/plain", "FileNotFound");
+      //server.send(404, "text/plain", "FileNotFound_server.onnotfound");
+       server.send(200, "text/html", "<a href=index.html>go here!</a>");
   });
 
   //get heap status, analog input value and all GPIO statuses in one json call
@@ -261,7 +264,8 @@ void setup() {
   Serial.println("HTTP server started");
 
 
-  pinMode(5, OUTPUT); //LED pin on ESP8266 Sparkfun dev board
+  pinMode(BUILTIN_LED, OUTPUT); //built in LED pin on ESP8266 Sparkfun dev board
+
 }
 
 
@@ -276,9 +280,9 @@ void loop() {
 }
 
 void blinkLed(){
-  digitalWrite(5, HIGH); // LED on
+  digitalWrite(BUILTIN_LED, HIGH); // LED on
   delay(blinkDelay);
-  digitalWrite(5, LOW); // LED off
+  digitalWrite(BUILTIN_LED, LOW); // LED off
   delay(blinkDelay);
 }
 
