@@ -2,7 +2,9 @@
 
 These instructions reside on github: https://github.com/hydronics2/ESP8266---Oct-2016-PCC-Class
 
-We'll be programming the ESP8266 wifi chip.  It is packaged on the sparkfun dev board: https://www.sparkfun.com/products/13711
+We'll be programming the ESP8266 wifi chip.  
+It is packaged on the sparkfun dev board: https://www.sparkfun.com/products/13711
+... and the NodeMCU board here: http://www.nodemcu.com/index_en.html
 
 Your boards are pre-programmed as wifi hot spots. Try connecting to your board with your phone and trying these pages:
 http://192.168.4.1/index.html  this controls the blue onboard LED
